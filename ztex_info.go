@@ -79,7 +79,7 @@ func printZTEX(d *ztex.Device) error {
 	fmt.Printf("      Flash Memory 2: %v\n", d.DescriptorCapability.FlashMemory2())
 	fmt.Printf("      FX3 Firmware: %v\n", d.DescriptorCapability.FX3Firmware())
 	fmt.Printf("      Debug Helper 2: %v\n", d.DescriptorCapability.DebugHelper2())
-	fmt.Printf("      Default Firmware Interface: %v\n", d.DescriptorCapability.DefaultFirmwareInterface())
+	fmt.Printf("      Default Firmware: %v\n", d.DescriptorCapability.DefaultFirmware())
 	fmt.Printf("    Module: %v\n", d.DescriptorModule)
 	fmt.Printf("    Serial Number: %v\n", d.DescriptorSerial)
 	fmt.Printf("  Board:\n")
