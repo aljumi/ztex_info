@@ -14,9 +14,10 @@ import (
 var (
 	showAll = getopt.BoolLong("all", 'a', "output all information")
 
-	showUSB  = getopt.BoolLong("usb", 'u', "output USB device information")
-	showZTEX = getopt.BoolLong("ztex", 'z', "output ZTEX device information")
-	showFPGA = getopt.BoolLong("fpga", 'f', "output FPGA status information")
+	showUSB   = getopt.BoolLong("usb", 'u', "output USB device information")
+	showZTEX  = getopt.BoolLong("ztex", 'z', "output ZTEX device information")
+	showFPGA  = getopt.BoolLong("fpga", 'f', "output FPGA status information")
+	showFlash = getopt.BoolLong("flash", 's', "output flash status information")
 
 	showHelp = getopt.BoolLong("help", 'h', "display this help and exit")
 )
@@ -116,6 +117,21 @@ func printFPGA(d *ztex.Device) error {
 	return nil
 }
 
+func printFlash(d *ztex.Device) error {
+	fst, err := d.FlashStatus()
+	if err != nil {
+		return fmt.Errorf("(*ztex.Device).FlashStatus: %v", err)
+	}
+
+	fmt.Printf("Flash Status:\n")
+	fmt.Printf("  Enabled: %v\n", fst.FlashEnabled)
+	fmt.Printf("  Size: %v\n", fst.FlashSize)
+	fmt.Printf("  Count: %v\n", fst.FlashCount)
+	fmt.Printf("  Error: %v\n", fst.FlashError)
+
+	return nil
+}
+
 func main() {
 	getopt.Parse()
 	if *showHelp {
@@ -147,6 +163,12 @@ func main() {
 	if *showAll || *showFPGA {
 		if err := printFPGA(d); err != nil {
 			log.Fatalf("printFPGA: %v", err)
+		}
+	}
+
+	if *showAll || *showFlash {
+		if err := printFlash(d); err != nil {
+			log.Fatalf("printFlash: %v", err)
 		}
 	}
 }
