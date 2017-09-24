@@ -125,7 +125,7 @@ func printFlash(d *ztex.Device) error {
 
 	fmt.Printf("Flash Status:\n")
 	fmt.Printf("  Enabled: %v\n", fst.FlashEnabled)
-	fmt.Printf("  Size: %v\n", fst.FlashSize)
+	fmt.Printf("  Sector: %v\n", fst.FlashSector)
 	fmt.Printf("  Count: %v\n", fst.FlashCount)
 	fmt.Printf("  Error: %v\n", fst.FlashError)
 
