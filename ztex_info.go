@@ -1,4 +1,4 @@
-// Binary ztex_info retrieves device information from a ZTEX USB FPGA module.
+// Binary ztex_info retrieves information from ZTEX USB devices.
 package main
 
 import (
@@ -12,14 +12,14 @@ import (
 )
 
 var (
-	showAll = getopt.BoolLong("all", 'a', "output all information")
+	allFlag = getopt.BoolLong("all", 'a', "output all information")
 
-	showUSB   = getopt.BoolLong("usb", 'u', "output USB device information")
-	showZTEX  = getopt.BoolLong("ztex", 'z', "output ZTEX device information")
-	showFPGA  = getopt.BoolLong("fpga", 'f', "output FPGA status information")
-	showFlash = getopt.BoolLong("flash", 's', "output flash status information")
+	usbFlag   = getopt.BoolLong("usb", 'u', "output USB device information")
+	ztexFlag  = getopt.BoolLong("ztex", 'z', "output ZTEX device information")
+	fpgaFlag  = getopt.BoolLong("fpga", 'f', "output FPGA status information")
+	flashFlag = getopt.BoolLong("flash", 's', "output flash status information")
 
-	showHelp = getopt.BoolLong("help", 'h', "display this help and exit")
+	helpFlag = getopt.BoolLong("help", 'h', "display this help and exit")
 )
 
 func printUSB(d *gousb.Device) error {
@@ -134,7 +134,7 @@ func printFlash(d *ztex.Device) error {
 
 func main() {
 	getopt.Parse()
-	if *showHelp {
+	if *helpFlag {
 		getopt.Usage()
 		return
 	}
@@ -148,25 +148,25 @@ func main() {
 	}
 	defer d.Close()
 
-	if *showAll || *showUSB {
+	if *allFlag || *usbFlag {
 		if err := printUSB(d.Device); err != nil {
 			log.Fatalf("printUSB: %v", err)
 		}
 	}
 
-	if *showAll || *showZTEX {
+	if *allFlag || *ztexFlag {
 		if err := printZTEX(d); err != nil {
 			log.Fatalf("printZTEX: %v", err)
 		}
 	}
 
-	if *showAll || *showFPGA {
+	if *allFlag || *fpgaFlag {
 		if err := printFPGA(d); err != nil {
 			log.Fatalf("printFPGA: %v", err)
 		}
 	}
 
-	if *showAll || *showFlash {
+	if *allFlag || *flashFlag {
 		if err := printFlash(d); err != nil {
 			log.Fatalf("printFlash: %v", err)
 		}
